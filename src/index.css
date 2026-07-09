@@ -1,0 +1,442 @@
+/* ==========================================================================
+   Portfolio Global Stylesheet
+   Gradient identity system with automatic light/dark theming.
+
+   Theme resolution order:
+     1. [data-theme="dark" | "light"] on <html> — explicit user choice
+        (set by ThemeToggle.jsx, persisted to localStorage)
+     2. prefers-color-scheme media query — OS default, used until the
+        user makes an explicit choice
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* --------------------------------------------------------------------------
+   1. Design tokens — dark palette (default fallback, also explicit choice)
+   -------------------------------------------------------------------------- */
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: #0a0a0f;
+  --bg-elevated: #131319;
+  --bg-elevated-2: #1b1b24;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  /* Text */
+  --text-primary: #f4f4f7;
+  --text-secondary: #a5a5b4;
+  --text-tertiary: #6b6b7a;
+
+  /* Brand gradient ramp — indigo → violet */
+  --accent-1: #6d5ffd;
+  --accent-2: #9b6bf3;
+  --accent-3: #b968e8;
+
+  /* Composite gradients */
+  --gradient-primary: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 50%, var(--accent-3) 100%);
+  --gradient-subtle: linear-gradient(135deg, rgba(109, 95, 253, 0.12) 0%, rgba(185, 104, 232, 0.12) 100%);
+  --gradient-text: linear-gradient(135deg, #8b7cfd 0%, #c48ef0 100%);
+  --gradient-border: linear-gradient(135deg, rgba(109, 95, 253, 0.5), rgba(185, 104, 232, 0.5));
+  --gradient-glow: radial-gradient(circle, rgba(109, 95, 253, 0.35) 0%, rgba(185, 104, 232, 0.15) 45%, transparent 70%);
+
+  /* Feedback */
+  --success: #4ade80;
+  --danger: #f87171;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 60px rgba(109, 95, 253, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   2. Design tokens — light palette
+   -------------------------------------------------------------------------- */
+[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #fafafc;
+  --bg-elevated: #ffffff;
+  --bg-elevated-2: #f1f1f6;
+  --border: rgba(20, 20, 30, 0.08);
+  --border-strong: rgba(20, 20, 30, 0.14);
+
+  --text-primary: #16161d;
+  --text-secondary: #55555f;
+  --text-tertiary: #86868f;
+
+  --accent-1: #5b4fe8;
+  --accent-2: #7f4fe0;
+  --accent-3: #9b4fd9;
+
+  --gradient-primary: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 50%, var(--accent-3) 100%);
+  --gradient-subtle: linear-gradient(135deg, rgba(91, 79, 232, 0.08) 0%, rgba(155, 79, 217, 0.08) 100%);
+  --gradient-text: linear-gradient(135deg, #5b4fe8 0%, #9b4fd9 100%);
+  --gradient-border: linear-gradient(135deg, rgba(91, 79, 232, 0.35), rgba(155, 79, 217, 0.35));
+  --gradient-glow: radial-gradient(circle, rgba(91, 79, 232, 0.18) 0%, rgba(155, 79, 217, 0.1) 45%, transparent 70%);
+
+  --success: #16a34a;
+  --danger: #dc2626;
+
+  --shadow-sm: 0 1px 2px rgba(20, 20, 30, 0.06);
+  --shadow-md: 0 4px 16px rgba(20, 20, 30, 0.08);
+  --shadow-lg: 0 12px 40px rgba(20, 20, 30, 0.1);
+  --shadow-glow: 0 0 60px rgba(91, 79, 232, 0.15);
+}
+
+/* --------------------------------------------------------------------------
+   3. OS-default resolution
+   Only applies BEFORE the user has made an explicit choice — i.e. when
+   ThemeToggle hasn't yet stamped [data-theme] on <html>. Once it does,
+   the attribute selectors above take precedence automatically.
+   -------------------------------------------------------------------------- */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+
+    --bg: #fafafc;
+    --bg-elevated: #ffffff;
+    --bg-elevated-2: #f1f1f6;
+    --border: rgba(20, 20, 30, 0.08);
+    --border-strong: rgba(20, 20, 30, 0.14);
+
+    --text-primary: #16161d;
+    --text-secondary: #55555f;
+    --text-tertiary: #86868f;
+
+    --accent-1: #5b4fe8;
+    --accent-2: #7f4fe0;
+    --accent-3: #9b4fd9;
+
+    --gradient-primary: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 50%, var(--accent-3) 100%);
+    --gradient-subtle: linear-gradient(135deg, rgba(91, 79, 232, 0.08) 0%, rgba(155, 79, 217, 0.08) 100%);
+    --gradient-text: linear-gradient(135deg, #5b4fe8 0%, #9b4fd9 100%);
+    --gradient-border: linear-gradient(135deg, rgba(91, 79, 232, 0.35), rgba(155, 79, 217, 0.35));
+    --gradient-glow: radial-gradient(circle, rgba(91, 79, 232, 0.18) 0%, rgba(155, 79, 217, 0.1) 45%, transparent 70%);
+
+    --success: #16a34a;
+    --danger: #dc2626;
+
+    --shadow-sm: 0 1px 2px rgba(20, 20, 30, 0.06);
+    --shadow-md: 0 4px 16px rgba(20, 20, 30, 0.08);
+    --shadow-lg: 0 12px 40px rgba(20, 20, 30, 0.1);
+    --shadow-glow: 0 0 60px rgba(91, 79, 232, 0.15);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. Shared tokens (identical across themes)
+   -------------------------------------------------------------------------- */
+:root {
+  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-full: 999px;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-theme: background-color 0.35s var(--ease-out), border-color 0.35s var(--ease-out),
+    color 0.35s var(--ease-out);
+}
+
+/* --------------------------------------------------------------------------
+   5. Reset & base
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  transition: var(--transition-theme);
+  overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem);
+  font-weight: 700;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 3vw + 1rem, 2.75rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 1.5vw + 1rem, 1.75rem);
+}
+
+p {
+  color: var(--text-secondary);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--accent-1);
+  color: #fff;
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* --------------------------------------------------------------------------
+   6. Layout primitives
+   -------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.section {
+  padding-block: var(--space-24);
+}
+
+/* --------------------------------------------------------------------------
+   7. Gradient identity system
+   -------------------------------------------------------------------------- */
+
+/* Solid gradient fill (buttons, badges, active states) */
+.gradient-fill {
+  background: var(--gradient-primary);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Faint gradient wash, used behind hero / feature sections */
+.gradient-wash {
+  background: var(--gradient-subtle);
+}
+
+/* Gradient-bordered card: padding-box + border-box double background trick */
+.gradient-border {
+  position: relative;
+  background: linear-gradient(var(--bg-elevated), var(--bg-elevated)) padding-box,
+    var(--gradient-border) border-box;
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+}
+
+/* Ambient hero glow — the signature element. A soft animated mesh
+   that drifts slowly behind hero content. Purely decorative,
+   pointer-events disabled, reduced-motion safe. */
+.gradient-glow {
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--gradient-glow);
+  filter: blur(60px);
+  animation: drift 16s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  0% {
+    transform: translate(-4%, -2%) scale(1);
+  }
+  100% {
+    transform: translate(4%, 3%) scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-glow {
+    animation: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   8. Reusable surfaces & components
+   -------------------------------------------------------------------------- */
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-theme), transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1px solid transparent;
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), border-color 0.2s var(--ease-out),
+    background-color 0.2s var(--ease-out);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+.btn-ghost:hover {
+  border-color: var(--accent-2);
+  background: var(--gradient-subtle);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: var(--gradient-subtle);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+/* --------------------------------------------------------------------------
+   9. Utility classes
+   -------------------------------------------------------------------------- */
+.text-secondary {
+  color: var(--text-secondary);
+}
+.text-tertiary {
+  color: var(--text-tertiary);
+}
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.gap-2 {
+  gap: var(--space-2);
+}
+.gap-4 {
+  gap: var(--space-4);
+}
+.gap-6 {
+  gap: var(--space-6);
+}
+.relative {
+  position: relative;
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding-block: var(--space-16);
+  }
+  .container {
+    padding-inline: var(--space-4);
+  }
+}

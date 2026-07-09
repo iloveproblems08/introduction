@@ -1,12 +1,25 @@
-import React from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
+import AppLayout from "./layouts/AppLayout";
 
-const App = () => {
+import Home from "./pages/Home/Home";
+import About from "./pages/About/About";
+import Projects from "./pages/Projects/Projects";
+import Contact from "./pages/Contact/Contact";
+
+export default function App() {
   return (
-    <div>
-      <h1>Hello, React!</h1>
-    </div>
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route path="/home" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/contact" element={<Contact />} />
+        </Route>
 
-export default App
+        <Route path="/" element={<Navigate to="/home" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
