@@ -2,4 +2,33 @@
   margin-left: 250px;
   min-height: 100vh;
   padding: 2rem;
+  transition: margin-left 0.3s ease, padding 0.3s ease;
+}
+
+@media (max-width: 1024px) {
+  .app-content {
+    margin-left: 220px;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-content {
+    margin-left: 112px;
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-content {
+    margin-left: 88px;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .app-content {
+    margin-left: 76px;
+    padding: 0.75rem;
+  }
 }
