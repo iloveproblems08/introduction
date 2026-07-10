@@ -1,10 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import ThemeToggle from "../themetoggle/ThemeToggle";
 import "./Sidebar.css";
 
+const SIDEBAR_COLLAPSED_KEY = "portfolio-sidebar-collapsed";
+
+function getInitialCollapsedState() {
+  if (typeof window === "undefined") return false;
+  return window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "true";
+}
+
 export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(getInitialCollapsedState);
+
+  useEffect(() => {
+    window.localStorage.setItem(SIDEBAR_COLLAPSED_KEY, String(collapsed));
+  }, [collapsed]);
 
   return (
     <aside className={`sidebar ${collapsed ? "collapsed" : ""}`}>

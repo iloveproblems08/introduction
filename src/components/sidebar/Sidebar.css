@@ -125,6 +125,7 @@
   .sidebar.collapsed {
     width: 112px;
     padding: 0.75rem 0.5rem;
+    height: 100dvh;
   }
 
   .sidebar {
@@ -156,6 +157,9 @@
   .sidebar-footer {
     width: 100%;
     justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: max(3rem, env(safe-area-inset-bottom));
+    flex-shrink: 0;
   }
 
   .sidebar-footer span {
